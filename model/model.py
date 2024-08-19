@@ -296,7 +296,7 @@ class PramExtractor(nn.Module):
         return style
 
 
-class MrStyler(object):
+class SPCNet(object):
     def __init__(self, device):
         self.encoder = Encoder(input_ch=1, filter_size=64, style_ch=512).to(device)
         self.generator = Generator(style_ch=512, filter_size=64).to(device)

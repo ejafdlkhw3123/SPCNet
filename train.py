@@ -10,7 +10,7 @@ import pandas as pd
 from openpyxl import load_workbook
 
 
-class Train(MrStyler):
+class Train(SPCNet):
     def __init__(self, cfg, device, dataset_train):
         super().__init__(device)
         self.device = device

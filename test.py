@@ -15,7 +15,7 @@ from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_har
 import lpips, pickle
 
 
-class Tester(MrStyler):
+class Tester(SPCNet):
     def __init__(self, cfg, device, dataset_test):
         super().__init__(device)
         self.device = device
