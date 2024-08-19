@@ -7,7 +7,7 @@ import argparse, ast, json
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('MRStyler')
+    parser = argparse.ArgumentParser('SPCNet')
     parser.add_argument('--config', type=str, default='config.yaml', help='config file name')
     parser.add_argument('--load_epoch', type=int, default=5, help='load epoch')
     parser.add_argument('--size', type=int, default=256, help='image size')

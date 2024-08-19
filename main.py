@@ -5,7 +5,7 @@ import yaml, torch
 import argparse, ast, json
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('MRStyler')
+    parser = argparse.ArgumentParser('SPCNet')
     parser.add_argument('--config', type=str, default='config.yaml', help='config file name')
     parser.add_argument('--batch_size', type=int, default=2, help='batch size must be bigger than 2')
     parser.add_argument('--end_epoch', type=int, default=990, help='end epoch')
