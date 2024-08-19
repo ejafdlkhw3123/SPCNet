@@ -1,13 +1,9 @@
-import time, io, re, torch
+import time, io
 from model.model import *
-from utils import create_emtpy_folder
-import matplotlib.pyplot as plt
-from open_clip import create_model_from_pretrained, get_tokenizer
 import numpy as np
 from skimage import io
 from torch.utils.data import DataLoader
-import pandas as pd
-from openpyxl import load_workbook
+from utils import *
 
 
 class Train(SPCNet):
@@ -214,16 +210,3 @@ def param_to_vector(info):
     vector_list = np.stack(vector_list, axis=0)
     return torch.tensor(vector_list)
 
-
-def concat_images(image, output_images):
-    tmp_tensor = image.squeeze()
-    for output in output_images:
-        output = img_normal(output.squeeze())
-        tmp_tensor = torch.concat([tmp_tensor, output], dim=1)
-    return tmp_tensor
-
-
-def img_normal(img):
-    img[img < 0] = 0
-    img[img > 1] = 1
-    return (img - torch.min(img)) / (torch.max(img) - torch.min(img))

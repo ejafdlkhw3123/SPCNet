@@ -1,9 +1,8 @@
 from dataloader.data_loader import CustomDataset
 from test import Tester
-# from test_no_clip import Tester
 from utils import load_pickle
 import yaml, torch
-import argparse, ast, json
+import argparse, json
 
 
 if __name__ == '__main__':

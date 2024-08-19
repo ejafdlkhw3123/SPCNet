@@ -1,7 +1,5 @@
 sev:
-  total_cls_num: 2
   size: 256
-  target: 'brain'
-  input_path: 'D:/dataset/sev/'
-  pkl_name: 'sev'
+  input_path: 'D:/dataset/test/'
+  pkl_name: 'test'
   sequence_list: ['T1w', 'T2w']

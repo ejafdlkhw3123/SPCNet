@@ -1,18 +1,8 @@
-import copy
-
 from model.model import *
-import matplotlib.pyplot as plt
-from skimage.metrics import structural_similarity as ssim
-from sklearn.manifold import TSNE
-import pandas as pd
 import numpy as np
-import clip, os, random
-from PIL import Image, ImageDraw, ImageFont
-import cv2
+import os
 from skimage import io
-from open_clip import create_model_from_pretrained, get_tokenizer
-from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score, adjusted_rand_score, normalized_mutual_info_score, homogeneity_completeness_v_measure
-import lpips, pickle
+from utils import *
 
 
 class Tester(SPCNet):
@@ -87,25 +77,5 @@ class Tester(SPCNet):
         return output_list, style_list, content_list
 
 
-def img_normal(img):
-    img[img < 0] = 0
-    img[img > 1] = 1
-    return (img - torch.min(img)) / (torch.max(img) - torch.min(img))
 
 
-def concat_images(image, output_images):
-    save_img = image.squeeze()
-    for i in range(output_images.shape[0]):
-        output = img_normal(output_images[i].squeeze())
-        save_img = torch.concat([save_img, output], dim=1)
-    return save_img
-
-
-def create_emtpy_folder(path_list):
-    for path in path_list:
-        if not os.path.exists(path):
-            os.makedirs(path)
-
-
-if __name__ == '__main__':
-    input = torch.randn(4, 512)  # Example query feature vectors

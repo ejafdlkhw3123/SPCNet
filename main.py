@@ -13,7 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('--size', type=int, default=256, help='image size')
     parser.add_argument('--weight_list', type=str, default='[10, 10, 1, 10, 10, 0.1, 1]')
     parser.add_argument('--dataset_name', type=str, default='sev', help='dataset name')
-    parser.add_argument('--slice_num', type=int, default=10, help='dataset name')
+    parser.add_argument('--slice_num', type=int, default=-1, help='dataset name')
     parser.add_argument('--path', type=str, default='test', help='save path')
     args = parser.parse_args()
 

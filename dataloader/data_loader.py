@@ -1,12 +1,7 @@
 import numpy as np
-import cv2, random, os, h5py, pickle, json, re
-import glob
-from skimage import io
+import cv2, random, os, h5py, json
 import torch.utils.data
 import torch
-from unicodedata import normalize
-from skimage.util import invert
-import matplotlib.pyplot as plt
 
 
 class CustomDataset(torch.utils.data.Dataset):
@@ -74,9 +69,4 @@ class CustomDataset(torch.utils.data.Dataset):
         input_info = json.loads(input_data.attrs['header'])
 
         return input_img, str(input_info)
-
-
-if __name__ == '__main__':
-    input_path = '/mai_nas/HB/spine/7_slice/input/'
-    target_path = '/mai_nas/HB/spine/7_slice/target/'
 
