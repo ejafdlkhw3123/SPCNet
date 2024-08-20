@@ -5,23 +5,17 @@ import torch
 
 
 class CustomDataset(torch.utils.data.Dataset):
-    def __init__(self, input_path, size=256, train_list=[], test_list=[], sequence_list=[], slice_num=-1, shuffle=True):
+    def __init__(self, input_path, size=256, slice_num=-1, shuffle=True):
         self.input_path = input_path
         self.size = size
         self.slice_num = slice_num
-        self.sequence_list = sequence_list
-        self.train_list = self.select_name(input_path, train_list, shuffle=shuffle)
-        self.test_list = self.select_name(input_path, test_list, shuffle=shuffle)
+        self.train_list = self.select_name(input_path + '/train/', shuffle=shuffle)
+        self.test_list = self.select_name(input_path + '/test/', shuffle=shuffle)
         self.total_num = len(self.train_list)
 
-    def select_name(self, input_path, target_list, shuffle=True):
-        input_list = []
-
-        for seq in self.sequence_list:
-            name_list = os.listdir(input_path + seq + '/')
-            name_list = [input_path + seq + '/' + name for name in name_list]
-            input_list += name_list
-        input_list = [path for path in input_list if any(name in path for name in target_list)]
+    def select_name(self, input_path, shuffle=True):
+        input_list = os.listdir(input_path)
+        input_list = [input_path + item for item in input_list]
 
         if shuffle:
             random.shuffle(input_list)
@@ -31,9 +25,9 @@ class CustomDataset(torch.utils.data.Dataset):
 
     def load_sample(self):
         input_list, info_list = [], []
-
-        for name in self.test_list[:4]:
-            input_data = h5py.File(name)
+        index_list = random.sample(range(len(self.train_list)), 2)
+        for index in index_list:
+            input_data = h5py.File(self.train_list[index])
             input_img = self.img_resize(input_data['array'][:])
             input_img = torch.from_numpy(np.float32(input_img[np.newaxis, :, :]))
             input_list.append(input_img)
@@ -44,7 +38,7 @@ class CustomDataset(torch.utils.data.Dataset):
         return input_list, info_list
 
     def load_test(self):
-        for name in  self.test_list:
+        for name in self.test_list:
             input_data = h5py.File(name)
             input_img = self.img_resize(input_data['array'][:])
             input_img = torch.from_numpy(np.float32(input_img[np.newaxis, :, :]))
@@ -64,7 +58,7 @@ class CustomDataset(torch.utils.data.Dataset):
         input_data = h5py.File(self.train_list[index])
 
         input_img = np.float32(self.img_resize(input_data['array'][:]))
-        input_img = input_img[np.newaxis,]
+        input_img = input_img[np.newaxis, ]
 
         input_info = json.loads(input_data.attrs['header'])
 

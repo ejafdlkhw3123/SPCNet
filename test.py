@@ -1,6 +1,5 @@
 from model.model import *
 import numpy as np
-import os
 from skimage import io
 from utils import *
 

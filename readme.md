@@ -26,31 +26,29 @@ parameter-guided style conversion module (PSCM) that adjusts the style based on 
 that synthesizes the decoupled content and modified style, and 4) a parameter extractor and dual discriminators that calculate
 the loss function to update the network.
 
-### Requirements
+## Requirements
 * python 3.11
 * pytorch 2.2.2
 * numpy, scikit-image, yaml, argparse, cv2, h5py
 <br> 
 
-### Testing 
-Pretrained models: [vgg-model](https://drive.google.com/file/d/1BinnwM5AmIcVubr16tPTqxMjUCE8iu5M/view?usp=sharing),  [vit_embedding](https://drive.google.com/file/d/1C3xzTOWx8dUXXybxZwmjijZN8SrC3e4B/view?usp=sharing), [decoder](https://drive.google.com/file/d/1fIIVMTA_tPuaAAFtqizr6sd1XV7CX6F9/view?usp=sharing), [Transformer_module](https://drive.google.com/file/d/1dnobsaLeE889T_LncCkAA2RkqzwsfHYy/view?usp=sharing)   <br> 
-Please download them and put them into the floder  ./experiments/  <br> 
+## Datasets
+The dataset is constructed as a dictionary in HDF5 format.
+Example dataset
 ```
-python test.py  --content_dir input/content/ --style_dir input/style/    --output out
+import h5py, json
+
+data = h5py.File(path)
+img = data['array']
+info = json.loads(data.attrs['header'])
 ```
-### Training  
-Style dataset is WikiArt collected from [WIKIART](https://www.wikiart.org/)  <br>  
-content dataset is COCO2014  <br>  
+
+## Training
 ```
-python train.py --style_dir ../../datasets/Images/ --content_dir ../../datasets/train2014 --save_dir models/ --batch_size 8
+python main.py --dataset_path ./dataset --save_path test
 ```
-### Reference
-If you find our work useful in your research, please cite our paper using the following BibTeX entry ~ Thank you ^ . ^. Paper Link [pdf](https://arxiv.org/abs/2105.14576)<br> 
+
+## Testing
 ```
-@inproceedings{deng2021stytr2,
-      title={StyTr^2: Image Style Transfer with Transformers}, 
-      author={Yingying Deng and Fan Tang and Weiming Dong and Chongyang Ma and Xingjia Pan and Lei Wang and Changsheng Xu},
-      booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-      year={2022},
-}
+python main_test.py  --dataset_path ./dataset --save_path test
 ```

@@ -16,6 +16,9 @@ class Train(SPCNet):
         self.model_list = [self.encoder, self.generator, self.param_extractor, self.discriminator1, self.discriminator2]
         self.optimizer_list = [self.e_optim, self.g_optim, self.p_optim, self.d1_optim, self.d2_optim]
         self.scheduler = [torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.95) for optimizer in self.optimizer_list]
+        weight_list = eval(self.weight_list)
+        self.loss_weight = {'D_1': weight_list[0], 'D_2': weight_list[1], 'Recon': weight_list[2], 'Gan_1': weight_list[3],
+                            'Gan_2': weight_list[4], 'Content': weight_list[5], 'Param': weight_list[6]}
 
     def init_params(self, cfg):
         for key, value in cfg.items():
@@ -23,6 +26,7 @@ class Train(SPCNet):
         self.patch_size = self.size // 8
 
     def __call__(self):
+        # Main training loop
         self.prepare_models()
         loader_train = DataLoader(dataset=self.dataset_train, batch_size=self.batch_size, shuffle=True)
         print('%d Train Start' % (self.init_epoch + 1))
@@ -92,10 +96,10 @@ class Train(SPCNet):
         self.param_extractor.train()
 
     def save_models_and_output(self, epoch, save_img):
-        create_emtpy_folder([self.path + 'output/', self.path + 'weight/'])
-        io.imsave(f'{self.path}output/{epoch}.jpg', np.uint8(save_img * 255))
+        create_emtpy_folder([self.save_path + 'output/', self.save_path + 'weight/'])
+        io.imsave(f'{self.save_path}output/{epoch}.jpg', np.uint8(save_img * 255))
         for name, model in zip(self.model_names, self.model_list):
-            torch.save(model.state_dict(), self.path + 'weight/%s_%d.pt' % (name, epoch))
+            torch.save(model.state_dict(), self.save_path + 'weight/%s_%d.pt' % (name, epoch))
 
     def save_epoch_loss(self, start_time, epoch_loss):
         es_time = time.time() - start_time
@@ -104,7 +108,7 @@ class Train(SPCNet):
 
     def load_model(self):
         for model_name in self.model_names:
-            file_path = self.path + 'weight/%s_%d.pt' % (model_name, self.init_epoch)
+            file_path = self.save_path + 'weight/%s_%d.pt' % (model_name, self.init_epoch)
             getattr(self, model_name).load_state_dict(torch.load(file_path))
         print('%d Model Load Success' % self.init_epoch)
 

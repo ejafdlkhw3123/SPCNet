@@ -1,5 +1,0 @@
-sev:
-  size: 256
-  input_path: 'D:/dataset/test/'
-  pkl_name: 'test'
-  sequence_list: ['T1w', 'T2w']
