@@ -33,7 +33,7 @@ the loss function to update the network.
 <br> 
 
 ## Datasets
-The dataset is constructed as a dictionary in HDF5 format.
+The dataset is constructed as a dictionary in HDF5 format. <br>
 Example dataset
 ```
 import h5py, json
